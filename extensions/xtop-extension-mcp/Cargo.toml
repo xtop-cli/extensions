@@ -1,0 +1,11 @@
+[package]
+name = "xtop-extension-mcp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Xtop MCP server extension: exposes xtop (and its plugins) as MCP tools"
+repository = "https://github.com/xtop-cli/extensions"
+
+[dependencies]
+xtop-extension-api = { workspace = true }
+serde_json = "1"
