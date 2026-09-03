@@ -1,6 +1,6 @@
 //! MCP (Model Context Protocol) server extension for xtop.
 //!
-//! Runs on stdio transport and exposes xtop's plugins (the `sentinel`
+//! Runs on stdio transport and exposes xtop's plugins (the `samurai`
 //! plugin) as MCP tools through the `xtop-extension-api` host contract.
 //! Any MCP-compatible AI (Claude Desktop, Cline, etc.) can connect via:
 //!
@@ -254,7 +254,7 @@ fn handle_tools_list(id: Option<serde_json::Value>) -> serde_json::Value {
                 },
                 {
                     "name": "plugin_status",
-                    "description": "Get Sentinel plugin internal status",
+                    "description": "Get Samurai plugin internal status",
                     "inputSchema": { "type": "object", "properties": {} }
                 }
             ]
@@ -279,7 +279,7 @@ fn handle_tools_call(
 
     // Map MCP tool name -> hosted plugin action + params string.
     let (plugin_id, action, params_str): (&str, &str, String) = match name {
-        "system_summary" => ("sentinel", "system.summary", String::new()),
+        "system_summary" => ("samurai", "system.summary", String::new()),
 
         "processes_top" => {
             let count = args.get("count").and_then(|c| c.as_i64()).unwrap_or(10);
@@ -288,7 +288,7 @@ fn handle_tools_call(
                 Some(f) => format!("{count},filter={f}"),
                 None => count.to_string(),
             };
-            ("sentinel", "processes.top", p)
+            ("samurai", "processes.top", p)
         }
 
         "processes_search" => {
@@ -298,7 +298,7 @@ fn handle_tools_call(
                 Some(f) => format!("{pattern},fields={f}"),
                 None => pattern.to_string(),
             };
-            ("sentinel", "processes.search", p)
+            ("samurai", "processes.search", p)
         }
 
         "process_info" => {
@@ -306,7 +306,7 @@ fn handle_tools_call(
                 Some(p) => p.to_string(),
                 None => return make_error(id, -32602, "missing required argument: pid".into()),
             };
-            ("sentinel", "process.info", pid)
+            ("samurai", "process.info", pid)
         }
 
         "process_kill" => {
@@ -314,7 +314,7 @@ fn handle_tools_call(
                 Some(p) => p.to_string(),
                 None => return make_error(id, -32602, "missing required argument: pid".into()),
             };
-            ("sentinel", "process.kill", pid)
+            ("samurai", "process.kill", pid)
         }
 
         "threshold_set" => {
@@ -330,27 +330,27 @@ fn handle_tools_call(
                 Some(v) => v.to_string(),
                 None => return make_error(id, -32602, "missing required argument: disk".into()),
             };
-            ("sentinel", "threshold.set", format!("{cpu},{mem},{disk}"))
+            ("samurai", "threshold.set", format!("{cpu},{mem},{disk}"))
         }
 
-        "threshold_get" => ("sentinel", "threshold.get", String::new()),
-        "config_get" => ("sentinel", "config.get", String::new()),
+        "threshold_get" => ("samurai", "threshold.get", String::new()),
+        "config_get" => ("samurai", "config.get", String::new()),
 
         "config_set" => {
             if let Some(ms) = args.get("interval_ms").and_then(|v| v.as_i64()) {
-                ("sentinel", "config.set", format!("interval_ms={ms}"))
+                ("samurai", "config.set", format!("interval_ms={ms}"))
             } else if let Some(theme) = args.get("theme").and_then(|v| v.as_str()) {
-                ("sentinel", "config.set", format!("theme={theme}"))
+                ("samurai", "config.set", format!("theme={theme}"))
             } else if let Some(layout) = args.get("layout").and_then(|v| v.as_str()) {
-                ("sentinel", "config.set", format!("layout={layout}"))
+                ("samurai", "config.set", format!("layout={layout}"))
             } else {
                 return make_error(id, -32602, "expected interval_ms, theme, or layout".into());
             }
         }
 
-        "process_alerts" => ("sentinel", "process.alerts", String::new()),
-        "alerts_status" => ("sentinel", "alerts.status", String::new()),
-        "plugin_status" => ("sentinel", "plugin.status", String::new()),
+        "process_alerts" => ("samurai", "process.alerts", String::new()),
+        "alerts_status" => ("samurai", "alerts.status", String::new()),
+        "plugin_status" => ("samurai", "plugin.status", String::new()),
 
         _ => return make_error(id, -32601, format!("Tool not found: {name}")),
     };
