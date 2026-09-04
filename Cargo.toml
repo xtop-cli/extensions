@@ -8,6 +8,8 @@ members = [
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
+rust-version = "1.87"
 
 [workspace.dependencies]
 xtop-extension-api = { git = "https://github.com/xtop-cli/api" }
+xtop-plugin-samurai = { git = "https://github.com/xtop-cli/plugins" }

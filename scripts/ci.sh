@@ -9,8 +9,10 @@
 #
 # Stages: fmt | clippy | check | test
 #
-# The repo currently has no workspace yet (xtop-extension-* land in F4); the
-# script skips cleanly until Cargo.toml exists.
+# The workspace currently has one member crate (extensions/xtop-extension-mcp)
+# consuming the xtop-extension-api contract crate and the xtop-plugin-samurai
+# crate (tool table source); the script runs every stage over the whole
+# workspace.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
