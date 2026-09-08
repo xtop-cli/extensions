@@ -1,4 +1,5 @@
-# xtop extensions
+<h1 align="center">
+<img src="https://raw.githubusercontent.com/xtop-cli/web/main/public/img/logo.png" width="100px" alt="Xtop logo" />Extensions</h1>
 
 Official repository for xtop extensions — optional behaviors the kernel can
 host. Today this means **server-style extensions**: long-running
