@@ -61,4 +61,4 @@ extensions/     this repo
 
 ## License
 
-MIT
+GPL-3.0-or-later. See [LICENSE](LICENSE). User contributions remain under the license chosen by their authors; see the license note.
